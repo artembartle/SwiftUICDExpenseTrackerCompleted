@@ -19,6 +19,7 @@ struct LogFormView: View {
     @State var category: Category = .utilities
     @State var date: Date = Date()
     @State var notes: String = String()
+    @State var selection = Date()
     
     @Environment(\.presentationMode)
     var presentationMode
@@ -45,7 +46,6 @@ struct LogFormView: View {
                 }
                 TextField("Notes", text: $notes)
             }
-
             .navigationBarItems(
                 leading: Button(action: self.onCancelTapped) { Text("Cancel")},
                 trailing: Button(action: self.onSaveTapped) { Text("Save")}
@@ -75,7 +75,9 @@ struct LogFormView: View {
         log.amount = NSDecimalNumber(value: self.amount)
         log.date = self.date
         log.notes = self.notes
-        
+
+        log.month = Month(date: self.date).rawValue
+                
         do {
             try context.save()
         } catch let error as NSError {

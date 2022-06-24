@@ -8,31 +8,50 @@
 
 import SwiftUI
 
-struct FilterCategoriesView: View {
+protocol FilterItem: Identifiable, Hashable, RawRepresentable where RawValue == String {
+    var title: String { get }
+    var color: Color { get }
+}
+
+extension FilterItem {
+    var title: String {
+        return rawValue.capitalized
+    }
+}
+
+struct FilterCategoriesView<T: FilterItem>: View {
     
-    @Binding var selectedCategories: Set<Category>
-    private let categories = Category.allCases
+    @Binding var selectedCategories: Set<T>
+        
+    let categories: [T]
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 16) {
-                ForEach(categories) { category in
-                    FilterButtonView(
-                        category: category,
-                        isSelected: self.selectedCategories.contains(category),
-                        onTap: self.onTap
-                    )
+            ScrollViewReader { reader in
+                HStack(spacing: 16) {
+                    ForEach(categories) { category in
+                        FilterButtonView(
+                            category: category,
+                            isSelected: self.selectedCategories.contains(category),
+                            onTap: self.onTap
+                        )
+                            
+                            .padding(.leading, category == self.categories.first ? 16 : 0)
+                            .padding(.trailing, category == self.categories.last ? 16 : 0)
                         
-                        .padding(.leading, category == self.categories.first ? 16 : 0)
-                        .padding(.trailing, category == self.categories.last ? 16 : 0)
-                    
+                    }
+                }
+                .onAppear {
+                    if let firstSelected = self.categories.first(where: { self.selectedCategories.contains($0) }) {
+                        reader.scrollTo(firstSelected.id, anchor: .leading)
+                    }                    
                 }
             }
         }
         .padding(.vertical)
     }
     
-    func onTap(category: Category) {
+    func onTap(category: T) {
         if selectedCategories.contains(category) {
             selectedCategories.remove(category)
         } else {
@@ -41,18 +60,18 @@ struct FilterCategoriesView: View {
     }
 }
 
-struct FilterButtonView: View {
+struct FilterButtonView<T: FilterItem>: View {
     
-    var category: Category
+    var category: T
     var isSelected: Bool
-    var onTap: (Category) -> ()
+    var onTap: (T) -> ()
     
     var body: some View {
         Button(action: {
             self.onTap(self.category)
         }) {
             HStack(spacing: 8) {
-                Text(category.rawValue.capitalized)
+                Text(category.title)
                     .fixedSize(horizontal: true, vertical: true)
                 
                 if isSelected {
@@ -70,12 +89,11 @@ struct FilterButtonView: View {
         .foregroundColor(isSelected ? category.color : Color(UIColor.gray))
     }
     
-    
 }
 
 
 struct FilterCategoriesView_Previews: PreviewProvider {
     static var previews: some View {
-        FilterCategoriesView(selectedCategories: .constant(Set()))
+        FilterCategoriesView(selectedCategories: .constant(Set()), categories: Category.allCases)
     }
 }

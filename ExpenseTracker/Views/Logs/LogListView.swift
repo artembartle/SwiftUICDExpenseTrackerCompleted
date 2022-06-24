@@ -52,7 +52,7 @@ struct LogListView: View {
                     }
                     .padding(.vertical, 4)
                 }
-                
+
             }
                
             .onDelete(perform: onDelete)

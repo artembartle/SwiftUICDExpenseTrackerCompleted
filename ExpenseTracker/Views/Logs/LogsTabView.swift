@@ -26,7 +26,7 @@ struct LogsTabView: View {
         NavigationView {
             VStack(spacing: 0) {
                 SearchBar(text: $searchText, keyboardHeight: $searchBarHeight, placeholder: "Search expenses")
-                FilterCategoriesView(selectedCategories: $selectedCategories)
+                FilterCategoriesView(selectedCategories: $selectedCategories, categories: Category.allCases)
                 Divider()
                 SelectSortOrderView(sortType: $sortType, sortOrder: $sortOrder)
                 Divider()

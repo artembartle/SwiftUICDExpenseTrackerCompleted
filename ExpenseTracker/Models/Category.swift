@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-enum Category: String, CaseIterable {
+enum Category: String, CaseIterable, FilterItem {
     
     case donation
     case food

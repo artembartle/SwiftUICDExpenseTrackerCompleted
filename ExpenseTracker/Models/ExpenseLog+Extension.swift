@@ -64,16 +64,16 @@ extension ExpenseLog {
         
     }
     
-    static func predicate(with categories: [Category], searchText: String) -> NSPredicate? {
+    
+    static func predicate(valueOf attribute:String, containsIn: [String], nameFilter: String) -> NSPredicate? {
         var predicates = [NSPredicate]()
         
-        if !categories.isEmpty {
-            let categoriesString = categories.map { $0.rawValue }
-            predicates.append(NSPredicate(format: "category IN %@", categoriesString))
+        if !containsIn.isEmpty {
+            predicates.append(NSPredicate(format: "%K IN %@", attribute, containsIn))
         }
-        
-        if !searchText.isEmpty {
-            predicates.append(NSPredicate(format: "name CONTAINS[cd] %@", searchText.lowercased()))
+
+        if !nameFilter.isEmpty {
+            predicates.append(NSPredicate(format: "name CONTAINS[cd] %@", nameFilter.lowercased()))
         }
         
         if predicates.isEmpty {
@@ -81,6 +81,14 @@ extension ExpenseLog {
         } else {
             return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         }
+    }
+
+    static func predicate(with categories: [Category], searchText: String) -> NSPredicate? {
+        return predicate(valueOf: "category", containsIn: categories.map(\.id), nameFilter: searchText)
+    }
+        
+    static func predicate(with months: [Month], searchText: String) -> NSPredicate? {
+        return predicate(valueOf: "month", containsIn: months.map(\.id), nameFilter: searchText)
     }
     
 }
