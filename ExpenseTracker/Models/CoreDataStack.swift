@@ -15,12 +15,19 @@ class CoreDataStack {
     
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: containerName)
+        for storeDescription in container.persistentStoreDescriptions {
+            storeDescription.shouldInferMappingModelAutomatically = false
+        }
+
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 print(error.localizedDescription)
             }
+            
             print(storeDescription)
         })
+        
+
         return container
     }()
     
