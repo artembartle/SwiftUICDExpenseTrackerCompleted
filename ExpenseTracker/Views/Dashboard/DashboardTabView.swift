@@ -16,49 +16,50 @@ struct DashboardTabView: View {
     
     @State var totalExpenses: Double?
     @State var categoriesSum: [CategorySum]?
+    @State var convertToEUR = false
     
     var body: some View {
-        VStack(spacing: 0) {
-            VStack(spacing: 4) {
-                if totalExpenses != nil {
-                    Text("Total expenses")
-                        .font(.headline)
-                    if totalExpenses != nil {
-                        Text(totalExpenses!.formattedCurrencyText)
-                            .font(.largeTitle)
-                    }
-                }
-            }
-            
-            if categoriesSum != nil {
-                if totalExpenses != nil && totalExpenses! > 0 {
-                    PieChartView(
-                        data: categoriesSum!.map { ($0.sum, $0.category.color) },
-                        style: Styles.pieChartStyleOne,
-                        form: CGSize(width: 300, height: 240),
-                        dropShadow: false
-                    )
+        NavigationView {
+            VStack(spacing: 0) {
+                VStack(spacing: 4) {
+                    Text(totalExpenses?.formattedCurrencyText ?? "")
+                        .font(.largeTitle)
                 }
                 
-                Divider()
+                if categoriesSum != nil {
+                    if totalExpenses != nil && totalExpenses! > 0 {
+                        PieChartView(
+                            data: categoriesSum!.map { ($0.sum, $0.category.color) },
+                            style: Styles.pieChartStyleOne,
+                            form: CGSize(width: 300, height: 240),
+                            dropShadow: false
+                        )
+                    }
+                    
+                    Divider()
 
-                List {
-                    Text("Breakdown").font(.headline)
-                    ForEach(self.categoriesSum!) {
-                        CategoryRowView(category: $0.category, sum: $0.sum)
+                    List {
+                        Text("Breakdown").font(.headline)
+                        ForEach(self.categoriesSum!) {
+                            CategoryRowView(category: $0.category, sum: $0.sum)
+                        }
                     }
                 }
+                
+                if totalExpenses == nil && categoriesSum == nil {
+                    Text("No expenses data\nPlease add your expenses from the logs tab")
+                        .multilineTextAlignment(.center)
+                        .font(.headline)
+                        .padding(.horizontal)
+                }
             }
-            
-            if totalExpenses == nil && categoriesSum == nil {
-                Text("No expenses data\nPlease add your expenses from the logs tab")
-                    .multilineTextAlignment(.center)
-                    .font(.headline)
-                    .padding(.horizontal)
+            .padding(.top)
+            .onAppear(perform: fetchTotalSums)
+            .toolbar {
+                Toggle("EUR", isOn: $convertToEUR)
             }
+            .navigationBarTitle("Total expenses", displayMode: .inline)
         }
-        .padding(.top)
-        .onAppear(perform: fetchTotalSums)
     }
     
     func fetchTotalSums() {
@@ -73,7 +74,6 @@ struct DashboardTabView: View {
         }
     }
 }
-
 
 struct CategorySum: Identifiable, Equatable {
     let sum: Double
