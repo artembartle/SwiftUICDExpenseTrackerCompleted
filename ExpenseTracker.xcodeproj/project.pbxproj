@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		742366F92865AC7D00828470 /* AddMonthMapping.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 742366F82865AC7D00828470 /* AddMonthMapping.xcmappingmodel */; };
 		7438154C28632F4800F259B4 /* AddMonthMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7438154B28632F4800F259B4 /* AddMonthMigration.swift */; };
+		745C34ED2865F3C4005765CC /* CurrencyConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745C34EC2865F3C4005765CC /* CurrencyConverter.swift */; };
 		74F51893285F7F1900A4D789 /* MonthlyTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F51892285F7F1900A4D789 /* MonthlyTabView.swift */; };
 		74F51895285F7F5D00A4D789 /* Month.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F51894285F7F5D00A4D789 /* Month.swift */; };
 		8BE1F53F244C04E90017E21D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE1F53E244C04E90017E21D /* AppDelegate.swift */; };
@@ -43,6 +44,7 @@
 		742366F82865AC7D00828470 /* AddMonthMapping.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = AddMonthMapping.xcmappingmodel; sourceTree = "<group>"; };
 		7438154628632D9F00F259B4 /* ExpenseTracker v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ExpenseTracker v3.xcdatamodel"; sourceTree = "<group>"; };
 		7438154B28632F4800F259B4 /* AddMonthMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMonthMigration.swift; sourceTree = "<group>"; };
+		745C34EC2865F3C4005765CC /* CurrencyConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverter.swift; sourceTree = "<group>"; };
 		74F51892285F7F1900A4D789 /* MonthlyTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyTabView.swift; sourceTree = "<group>"; };
 		74F51894285F7F5D00A4D789 /* Month.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Month.swift; sourceTree = "<group>"; };
 		74F51896285F84D400A4D789 /* ExpenseTracker v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ExpenseTracker v2.xcdatamodel"; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 			children = (
 				8BE1F55C244C07240017E21D /* Utils.swift */,
 				8BE1F56A244C09510017E21D /* Extensions.swift */,
+				745C34EC2865F3C4005765CC /* CurrencyConverter.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BE1F579244C0AB20017E21D /* PieChartView.swift in Sources */,
+				745C34ED2865F3C4005765CC /* CurrencyConverter.swift in Sources */,
 				8BE1F557244C05AB0017E21D /* ExpenseLog+Extension.swift in Sources */,
 				8BE1F53F244C04E90017E21D /* AppDelegate.swift in Sources */,
 				8BE1F541244C04E90017E21D /* SceneDelegate.swift in Sources */,
@@ -453,7 +457,7 @@
 				DEVELOPMENT_TEAM = 35YF6A38VT;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = ExpenseTracker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -474,7 +478,7 @@
 				DEVELOPMENT_TEAM = 35YF6A38VT;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = ExpenseTracker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

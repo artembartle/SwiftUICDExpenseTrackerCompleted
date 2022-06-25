@@ -16,16 +16,15 @@ struct DashboardTabView: View {
     
     @State var totalExpenses: Double?
     @State var categoriesSum: [CategorySum]?
-    @State var convertToEUR = false
+    
+    @ObservedObject var currencyConverter = CurrencyConverter(from: .usd, to: .eur)
     
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                VStack(spacing: 4) {
-                    Text(totalExpenses?.formattedCurrencyText ?? "")
-                        .font(.largeTitle)
-                }
-                
+                Text(currencyConverter.formattedPrice(totalExpenses))
+                    .font(.largeTitle)
+
                 if categoriesSum != nil {
                     if totalExpenses != nil && totalExpenses! > 0 {
                         PieChartView(
@@ -41,7 +40,7 @@ struct DashboardTabView: View {
                     List {
                         Text("Breakdown").font(.headline)
                         ForEach(self.categoriesSum!) {
-                            CategoryRowView(category: $0.category, sum: $0.sum)
+                            CategoryRowView(category: $0.category, sum: currencyConverter.formattedPrice($0.sum))
                         }
                     }
                 }
@@ -56,8 +55,18 @@ struct DashboardTabView: View {
             .padding(.top)
             .onAppear(perform: fetchTotalSums)
             .toolbar {
-                Toggle("EUR", isOn: $convertToEUR)
+                Toggle("EUR", isOn: $currencyConverter.converted)
             }
+            .overlay {
+                if currencyConverter.loading {
+                    ProgressView("Refreshing conversion rate")
+                        .progressViewStyle(CircularProgressViewStyle(tint: .accentColor))
+                        .padding()
+                        .background(Color(.systemBackground))
+                        .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
+                }
+            }
+            .alert("Please try again later", isPresented: $currencyConverter.failed, actions: {})
             .navigationBarTitle("Total expenses", displayMode: .inline)
         }
     }
